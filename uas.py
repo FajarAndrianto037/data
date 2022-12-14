@@ -1,10 +1,15 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import pickle
+import joblib
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+
+# data = pd.read_csv("https://raw.githubusercontent.com/FajarAndrianto037/data/main/Heart_Disease_Dataset.csv")
+# st.dataframe(data)
 
 
 st.write("# Heart disease Prediction App")
@@ -62,6 +67,24 @@ heart_dataset = heart_dataset.drop(columns=['target'])
 
 df = pd.concat([input_df,heart_dataset],axis=0)
 
+# Encoding of ordinal features
+# https://www.kaggle.com/pratik1120/penguin-dataset-eda-classification-and-clustering
+# df = pd.get_dummies(df, columns = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal'])
+
+# df = df[:1] # Selects only the first row (the user input data)
+
+# st.write(input_df)
+# # Reads in saved classification model
+# load_clf = pickle.load(open('Random_forest_model.pkl', 'rb'))
+
+# # Apply model to make predictions
+# prediction = load_clf.predict(df)
+# prediction_proba = load_clf.predict_proba(df)
+
+
+# st.subheader('Prediksi Penyakit')
+# st.write(prediction)
+
 st.subheader('Data Penyakit')
 st.write(data.target.value_counts())
 st.write(sns.countplot(x="target", data=data))
@@ -72,6 +95,8 @@ countHaveDisease = len(data[data.target == 1])
 st.write("Persentase pasien tidak memiliki penyakit jantung: {:.2f}%".format((countNoDisease / (len(data.target))*100)))
 st.write("Persentase pasien memiliki penyakit jantung: {:.2f}%".format((countHaveDisease / (len(data.target))*100)))
 
+# st.subheader('Prediksi Akurasi')
+# st.write(prediction_proba)
 
 def submit():
     st.subheader('model regression')
@@ -96,12 +121,24 @@ def submit():
 
     st.subheader('model KNN')
     from sklearn.neighbors import KNeighborsClassifier
-    
+    # knn = KNeighborsClassifier(n_neighbors = 2)  # n_neighbors means k
+    # knn.fit(x_train.T, y_train.T)
+    # prediction = knn.predict(x_test.T)
+
+    # st.write("{} KNN Score: {:.2f}%".format(2, knn.score(x_test.T, y_test.T)*100))
+
+    # mencoba mencari score knn terbaik dengan 20 kali coba
     scoreList = []
     for i in range(1,20):
         knn2 = KNeighborsClassifier(n_neighbors = i)  # n_neighbors means k
         knn2.fit(x_train.T, y_train.T)
         scoreList.append(knn2.score(x_test.T, y_test.T))
+        
+    # plt.plot(range(1,20), scoreList)
+    # plt.xticks(np.arange(1,20,1))
+    # plt.xlabel("K value")
+    # plt.ylabel("Score")
+    # plt.show()
 
     acc = max(scoreList)*100
     accuracies['KNN'] = acc
