@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import joblib
-import seaborn as sns
+# import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -62,43 +62,23 @@ input_df = user_input_features()
 
 # Combines user input features with entire dataset
 # This will be useful for the encoding phase
-heart_dataset = pd.read_csv('heart.csv')
+heart_dataset = pd.read_csv('https://raw.githubusercontent.com/FajarAndrianto037/data/main/Heart_Disease_Dataset.csv')
 heart_dataset = heart_dataset.drop(columns=['target'])
 
 df = pd.concat([input_df,heart_dataset],axis=0)
 
-# Encoding of ordinal features
-# https://www.kaggle.com/pratik1120/penguin-dataset-eda-classification-and-clustering
-# df = pd.get_dummies(df, columns = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal'])
-
-# df = df[:1] # Selects only the first row (the user input data)
-
-# st.write(input_df)
-# # Reads in saved classification model
-# load_clf = pickle.load(open('Random_forest_model.pkl', 'rb'))
-
-# # Apply model to make predictions
-# prediction = load_clf.predict(df)
-# prediction_proba = load_clf.predict_proba(df)
-
-
-# st.subheader('Prediksi Penyakit')
-# st.write(prediction)
-
-st.subheader('Data Penyakit')
-st.write(data.target.value_counts())
-st.write(sns.countplot(x="target", data=data))
-st.pyplot(plt.show())
 
 countNoDisease = len(data[data.target == 0])
 countHaveDisease = len(data[data.target == 1])
 st.write("Persentase pasien tidak memiliki penyakit jantung: {:.2f}%".format((countNoDisease / (len(data.target))*100)))
 st.write("Persentase pasien memiliki penyakit jantung: {:.2f}%".format((countHaveDisease / (len(data.target))*100)))
 
-# st.subheader('Prediksi Akurasi')
-# st.write(prediction_proba)
 
 def submit():
+    st.write(input_df)
+    # Reads in saved classification model
+    load_clf = pickle.load(open('Random_forest_model.pkl', 'rb'))   
+    
     st.subheader('model regression')
     y = data.target.values
     x_data = data.drop(['target'], axis = 1)
