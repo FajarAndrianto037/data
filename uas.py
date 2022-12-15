@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-# import pickle
+import pickle
 import joblib
 # import seaborn as sns
 import matplotlib.pyplot as plt
@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 # st.dataframe(data)
 
 
-st.write("# Heart Disease Application")
+st.write("# Heart disease Aplication")
 st.sidebar.header('User Input Features')
 data = pd.read_csv('https://raw.githubusercontent.com/FajarAndrianto037/data/main/Heart_Disease_Dataset.csv')
 st.dataframe(data)
@@ -73,6 +73,8 @@ countHaveDisease = len(data[data.target == 1])
 st.write("Persentase pasien tidak memiliki penyakit jantung: {:.2f}%".format((countNoDisease / (len(data.target))*100)))
 st.write("Persentase pasien memiliki penyakit jantung: {:.2f}%".format((countHaveDisease / (len(data.target))*100)))
 
+# st.subheader('Prediksi Akurasi')
+# st.write(prediction_proba)
 
 def submit():
     st.write(input_df)
