@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 # st.dataframe(data)
 
 
-st.write("# Heart disease Prediction App")
+st.write("# Heart Disease Application")
 st.sidebar.header('User Input Features')
 data = pd.read_csv('https://raw.githubusercontent.com/FajarAndrianto037/data/main/Heart_Disease_Dataset.csv')
 st.dataframe(data)
